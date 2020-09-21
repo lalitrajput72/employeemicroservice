@@ -1,5 +1,6 @@
 package com.employee.employeemicroservice.entity;
 
+//POJO of JobPortal
 public class JobPortal {
 
 	int id;
