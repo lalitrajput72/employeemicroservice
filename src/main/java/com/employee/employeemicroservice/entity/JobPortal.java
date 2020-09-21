@@ -1,30 +1,19 @@
 package com.employee.employeemicroservice.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="JOBPORTAL")
 public class JobPortal {
 
-	@Id
-	int jobId;
-	@Column(name="COMPANY_NAME")
+	int id;
 	String companyName;
-	@Column(name="DESGINATION_CODE")
 	String designationCode;
-	@Column(name="SALARY_PROVIDED")
 	String salaryProvided;
 	int experience;
 	
 	
-	public int getJobId() {
-		return jobId;
+	public int getId() {
+		return id;
 	}
-	public void setJobId(int jobId) {
-		this.jobId = jobId;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getCompanyName() {
 		return companyName;
@@ -51,6 +40,6 @@ public class JobPortal {
 		this.experience = experience;
 	}
 	
-	
-	
 }
+
+
