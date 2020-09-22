@@ -1,5 +1,6 @@
 package com.employee.employeemicroservice.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.employee.employeemicroservice.entity.Employee;
 import com.employee.employeemicroservice.entity.JobPortal;
 import com.employee.employeemicroservice.service.EmployeeService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 @RequestMapping("/employee")
@@ -76,11 +78,14 @@ public class EmployeeController {
 	public ResponseEntity<ResponseEntity<List<JobPortal>>> getReleventJobsByExperience(@PathVariable("yearsOfExperience") int yearsOfExperience){
 		return new ResponseEntity<ResponseEntity<List<JobPortal>>>(jobPortalController.findByExperience(yearsOfExperience),new HttpHeaders(),HttpStatus.OK);
 	}
-	
+	@HystrixCommand(fallbackMethod = "fallbackFindByDesignation")
 	@GetMapping("/getReleventJobsByDesignation/{designation}")
 	public ResponseEntity<ResponseEntity<List<JobPortal>>> getReleventJobsByDesignation(@PathVariable("designation") String designation){
 		return new ResponseEntity<ResponseEntity<List<JobPortal>>>(jobPortalController.findByDesignation(designation),new HttpHeaders(),HttpStatus.OK);
 	}
 	
-
+	public ResponseEntity<ResponseEntity<List<JobPortal>>> fallbackFindByDesignation(String designation) {
+		System.out.println("Error occurred while getting Jobs By Designation");
+		return new ResponseEntity<ResponseEntity<List<JobPortal>>>(new ResponseEntity<List<JobPortal>>(new ArrayList<JobPortal>() , new HttpHeaders(),HttpStatus.BAD_REQUEST),new HttpHeaders(),HttpStatus.BAD_REQUEST);
+	}
 }
